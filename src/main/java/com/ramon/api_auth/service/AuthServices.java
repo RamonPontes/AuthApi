@@ -1,17 +1,19 @@
 package com.ramon.api_auth.service;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import com.ramon.api_auth.model.AuthRequest;
-import com.ramon.api_auth.model.AuthResponse;
 
+@Service
 public class AuthServices {
-    public static AuthResponse.Register Register(AuthRequest request) {
-        AuthResponse.Register response = new AuthResponse.Register();
-        response.setName(request.getName());
-        response.setEmail(request.getEmail());
-        response.setPassword(request.getPassword());
+    public static ResponseEntity<Object> Register(AuthRequest.Register request) {
+        if (request.getName() == null || request.getName().isEmpty() || request.getEmail() == null || request.getEmail().isEmpty() || request.getPassword() == null || request.getPassword().isEmpty()) {
+            return ResponseEntity.status(400).body("All fields are required");
+        }
 
-        return response;
+
+        return ResponseEntity.status(200).body("OK");
     }
 
     public ResponseEntity<Object> Login() {

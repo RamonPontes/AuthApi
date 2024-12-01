@@ -1,11 +1,8 @@
 package com.ramon.api_auth.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ramon.api_auth.model.AuthRequest;
 import com.ramon.api_auth.service.AuthServices;
@@ -27,11 +24,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> registerUser(@RequestBody AuthRequest request) {
-        System.out.print(request.getName());
-
-        return ResponseEntity.status(200).body(AuthServices.Register(request));
+    public ResponseEntity<Object> registerUser(@RequestBody AuthRequest.Register request) {
+        return AuthServices.Register(request);
     }
+
     
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword() {
