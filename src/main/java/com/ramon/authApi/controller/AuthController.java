@@ -1,5 +1,6 @@
 package com.ramon.authApi.controller;
 
+import com.ramon.authApi.dto.LoginRequest;
 import com.ramon.authApi.model.User;
 import com.ramon.authApi.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,25 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User userData) {
-        if (userData.isAnyFieldNull()) { ResponseEntity.status(400).body("All fields are required"); }
+        if (userData.isAnyFieldNull()) { return ResponseEntity.status(400).body("All fields are required"); }
 
         if (authService.findUserWithEmail(userData.getEmail()) != null) { return ResponseEntity.status(409).body("Email already registered"); }
 
         return ResponseEntity.status(200).body(authService.registredUser(userData));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest userData) {
+        if (userData.isAnyFieldNull()) { return ResponseEntity.status(400).body("All fields are required"); }
+
+        if (authService.findUserWithEmail(userData.getEmail()) == null) { return ResponseEntity.status(404).body("User not found"); }
+
+        User login = authService.login(userData);
+
+        if (login == null) {
+            return ResponseEntity.status(401).body("Invalid password");
+        } else {
+            return ResponseEntity.status(200).body(login);
+        }
     }
 }
