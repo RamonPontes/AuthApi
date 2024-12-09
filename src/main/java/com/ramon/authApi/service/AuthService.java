@@ -15,4 +15,8 @@ public class AuthService {
         return authRepository.findByEmail(email);
     }
 
+    public User registredUser(User user) {
+        return authRepository.save(user);
+    }
+
 }
