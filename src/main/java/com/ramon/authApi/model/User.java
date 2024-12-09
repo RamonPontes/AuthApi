@@ -1,5 +1,6 @@
 package com.ramon.authApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -44,5 +45,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @JsonIgnore
+    public boolean isAnyFieldNull() {
+        return getEmail() == null || getName() == null || getPassword() == null;
     }
 }
