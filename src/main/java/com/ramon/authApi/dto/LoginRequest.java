@@ -2,6 +2,7 @@ package com.ramon.authApi.dto;
 
 public class LoginRequest {
     private String email;
+    private String password;
 
     public String getPassword() {
         return password;
@@ -19,5 +20,7 @@ public class LoginRequest {
         this.email = email;
     }
 
-    private String password;
+    public Boolean isAnyFieldNull() {
+        return getEmail() == null || getPassword() == null;
+    }
 }
