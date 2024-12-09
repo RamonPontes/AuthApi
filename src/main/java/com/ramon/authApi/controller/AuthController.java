@@ -3,6 +3,7 @@ package com.ramon.authApi.controller;
 import com.ramon.authApi.dto.LoginRequest;
 import com.ramon.authApi.model.User;
 import com.ramon.authApi.service.AuthService;
+import com.ramon.authApi.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,9 @@ public class AuthController {
 
     @Autowired
     AuthService authService;
+
+    @Autowired
+    JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User userData) {
@@ -37,7 +41,9 @@ public class AuthController {
         if (login == null) {
             return ResponseEntity.status(401).body("Invalid password");
         } else {
-            return ResponseEntity.status(200).body(login);
+            System.out.println(jwtService.validateToken(jwtService.generateToken(login)));
+
+            return ResponseEntity.status(200).body(jwtService.generateToken(login));
         }
     }
 }
