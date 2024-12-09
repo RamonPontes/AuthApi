@@ -6,10 +6,7 @@ import com.ramon.authApi.service.AuthService;
 import com.ramon.authApi.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -45,5 +42,14 @@ public class AuthController {
 
             return ResponseEntity.status(200).body(jwtService.generateToken(login));
         }
+    }
+
+    @GetMapping("/example")
+    public ResponseEntity<?> example(@RequestHeader String Authorization) {
+        String token = Authorization.replace("Bearer ", "");
+
+        if (jwtService.validateToken(token) == null) { return ResponseEntity.status(401).body("Invalid token"); }
+
+        return ResponseEntity.ok("Return example");
     }
 }
